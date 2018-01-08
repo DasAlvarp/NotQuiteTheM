@@ -7,5 +7,6 @@ extends Node
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	var host = connect("localhost", 56789)
+	var client = StreamPeerTCP.new()
+	var host = client.connect("localhost", 56789)
 	pass
