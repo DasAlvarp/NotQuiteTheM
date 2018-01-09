@@ -8,7 +8,7 @@ public class SingleGameConnector
 {
 	public static void main(String[] args)
 	{
-		int port = 56789;
+		int port = 2003;
 		ServerManager server = new ServerManager(port);
 	}
 }

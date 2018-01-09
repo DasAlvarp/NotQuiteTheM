@@ -33,7 +33,7 @@ public class ServerManager
 			//accept connections
 			try
 			{
-				players[socketNum - 1] = server.accept();
+				players[socketNum] = server.accept();
 				System.out.println("Connected to player " + socketNum);
 			}
 			catch(Exception e)

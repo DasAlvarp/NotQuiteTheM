@@ -8,5 +8,5 @@ func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
 	var client = StreamPeerTCP.new()
-	var host = client.connect("localhost", 56789)
+	var host = client.connect("localhost", 2003)
 	pass
