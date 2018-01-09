@@ -24,8 +24,8 @@ abstract public class Card
 	abstract public int getCountdown();
 	abstract public int getBaseCountdown();
 	abstract public int getAdjustedBaseCountdown();
-	
-	abstract public int[] getInfo();
 
+	abstract public int[] getInfo();
+	abstract public int[] getCost();
 	abstract public int[] update();
 }

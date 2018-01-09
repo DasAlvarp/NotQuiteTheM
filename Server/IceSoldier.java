@@ -106,4 +106,15 @@ public class IceSoldier extends Card
 			return new int[]{cd, 0, 0};//countdown, damage to them, damage to me.
 		}
 	}
+
+	public int[] getInfo()
+	{
+		return new int[]{getAttack(), getHealth(), getCountdown()}
+	}
+
+	public int[] getCost()
+	{
+		return new int[]{2, 0, 2};
+	}
+
 }
