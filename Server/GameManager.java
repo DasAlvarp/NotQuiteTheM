@@ -15,9 +15,16 @@ public class GameManager
 	{
 		boards = new Board[2];
 		
+		//filling up a board with all of a card. Won't be like that.
+		int[] justSoldiers = new int[50];
+		for(int x = 0; x < 50; x++)
+		{
+			justSoldiers[x] = 1;
+		}
+
 		for(int x = 0; x < 2; x++)
 		{
-			boards[x] = new Board();
+			boards[x] = new Board(justSoldiers);
 		}
 
 		this.players = players;

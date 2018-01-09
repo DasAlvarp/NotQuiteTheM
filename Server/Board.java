@@ -6,17 +6,20 @@ import java.util.Date;
 
 public class Board
 {
+	//card stuff
 	ArrayList hand;
 	ArrayList deck;
 
 	ArrayList discard;
 	ArrayList library;
 
+
+	//board stuff
 	Card[][] parts;
 	int[] idols;
 
-	CardManager manage;
 
+	//resources
 	int maxStamina;
 	int curStamina;
 
@@ -25,7 +28,11 @@ public class Board
 
 	int maxIce;
 	int curIce;
-	public Board()
+
+	//utils
+	CardManager manage;
+
+	public Board(int[] cards)
 	{
 		maxStamina = 0;
 		curStamina = 0;
@@ -39,6 +46,7 @@ public class Board
 		manage = new CardManager();
 		idols = new int[5];
 		parts = new Card[5][3];
+
 		for(int x = 0; x < 5; x++)
 		{
 			idols[x] = 10;
@@ -48,6 +56,33 @@ public class Board
 				parts[x][y] = new Blank();
 			}
 		}
+
+		//initialize hand and deck.
+		hand = new ArrayList();
+		deck = new ArrayList();
+
+		discard = new ArrayList();
+		library = new ArrayList();
+
+		//fill deck.
+		for(int x = 0; x < cards.length; x++)
+		{
+			library.append(cards[x]);
+		}
+
+		//draw cards
+		for(int x = 0; x < 5; x++);
+		{
+			draw();
+		}
+
+	}
+
+	public int draw()
+	{
+		int card = library.pop();
+		hand.append(card);
+		return card;
 	}
 
 	public void place(int cardId, int x, int y)
