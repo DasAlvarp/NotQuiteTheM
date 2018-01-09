@@ -27,6 +27,8 @@ public class GameManager
 			boards[x] = new Board(justSoldiers);
 		}
 
+		players.placeInHand(0, 1, 1);
+
 		this.players = players;
 		roundNum = 0;
 	}

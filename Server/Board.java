@@ -75,7 +75,6 @@ public class Board
 		{
 			draw();
 		}
-
 	}
 
 	public int draw()
@@ -85,23 +84,78 @@ public class Board
 		return card;
 	}
 
-	public void place(int cardId, int x, int y)
+	public int sac(int handNumber, int resource)
 	{
-		Card temp = manage.getCard(cardId);
-		
-		//first: can we place it
-		if(canAfford(temp))
+		//if resource is 0, it's cards. 1 = fire, 2=ice
+		if(handNumber < hand.size())
 		{
-			if(canPlace(temp, x, y))
+			int card = discard(handNumber);
+			switch(resource)
 			{
-
+				case 0:
+					draw();
+					draw();
+					break;
+				case 1:
+					maxFire++;
+					curFire++;
+					maxStamina++;
+					curStamina++;
+					break;
+				case 2:
+					maxIce++;
+					curIce++;
+					maxStamina++;
+					curStamina++;
+					break;
+				default:
+					System.out.println("Something broke");
+					break;
 			}
+			return card;
+		}
+		else
+		{
+			return -1;
 		}
 	}
 
-	public boolean canAfford(Card card)
+	public int discard(int handNumber)
 	{
-		int[] price = card.getCost();
+		int card = hand.get(handNumber);
+		hand.remove(handNumber);
+		discard.append(card);
+		return card;
+	}
+
+	//play card from hand
+	public void placeInHand(int handNumber, int x, int y)
+	{
+		int cardId = hand.get(handNumber);
+		if(place(cardId, x, y))
+		{
+			hand.discard(handNumber);
+		}
+	}
+
+	public boolean place(int cardId, int x, int y)
+	{
+		Card temp = manage.getCard(cardId);
+		cost = temp.getCost();
+
+		if(canAfford(cost))
+		{
+			if(canPlace(temp, x, y))
+			{
+				parts[x][y] = temp;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean canAfford(int[] price)
+	{
 		return (price[0] <= curStamina && price[1] <= curFire && price[2] <= curIce);
 	}
 
