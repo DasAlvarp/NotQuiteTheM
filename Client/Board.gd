@@ -31,9 +31,11 @@ func draw(var node):
 	for x in range(5):
 		for y in range(3):
 			var imageName = getImagePath(board[x][y][0])
-			blankBoard[x][y].set_size_override(Vector2(10,10))
-			node.draw_texture_rect(blankBoard[x][y], Rect2(x * 100, y * 100, 10, 10), false)
-			print( str(x) + "," + str(y))
+			blankBoard[x][y].set_size_override(Vector2(100, 100))
+			if(x % 2 == 0):
+				node.draw_texture_rect(blankBoard[x][y], Rect2(y * 100 + 50, x * 75, 100, 100), false)
+			else:
+				node.draw_texture_rect(blankBoard[x][y], Rect2(y * 100, x * 75, 100, 100), false)
 
 func getImagePath(var id):
 	if(id == 0):
