@@ -99,7 +99,7 @@ public class IceSoldier extends Card
 		cd--;
 		if(cd < 1){
 			cd = getAdjustedBaseCountdown();
-			return new int[]{0, getAttack, 0};
+			return new int[]{0, getAttack(), 0};
 		}
 		else
 		{
