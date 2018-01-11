@@ -67,7 +67,7 @@ public class GameManager
 		{
 			BigInteger bigInt = BigInteger.valueOf((int)flattenedBoard.get(x));
 			byte[] thatNumber = bigInt.toByteArray();
-			for(int y = 0; y < 4; y++)
+			for(int y = 0; y < thatNumber.length; y++)
 			{
 				toSend[x * 4 + y] = thatNumber[y]; 
 			}
