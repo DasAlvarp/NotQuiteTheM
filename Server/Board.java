@@ -32,6 +32,10 @@ public class Board
 	//utils
 	CardManager manage;
 
+	public Board()
+	{
+		//exists so a specific thing works
+	}
 	public Board(int[] cards)
 	{
 		maxStamina = 0;
@@ -58,16 +62,16 @@ public class Board
 		}
 
 		//initialize hand and deck.
-		hand = new ArrayList();
-		deck = new ArrayList();
+		hand = new ArrayList<Integer>();
+		deck = new ArrayList<Integer>();
 
-		discard = new ArrayList();
-		library = new ArrayList();
+		discard = new ArrayList<Integer>();
+		library = new ArrayList<Integer>();
 
 		//fill deck.
 		for(int x = 0; x < cards.length; x++)
 		{
-			library.append(cards[x]);
+			library.add(cards[x]);
 		}
 
 		//draw cards
@@ -79,8 +83,8 @@ public class Board
 
 	public int draw()
 	{
-		int card = library.pop();
-		hand.append(card);
+		int card = (int)library.remove(0);//returns what was popped
+		hand.add(card);
 		return card;
 	}
 
@@ -122,26 +126,29 @@ public class Board
 
 	public int discard(int handNumber)
 	{
-		int card = hand.get(handNumber);
+		int card = (int)hand.get(handNumber);
 		hand.remove(handNumber);
-		discard.append(card);
+		discard.add(card);
 		return card;
 	}
 
 	//play card from hand
-	public void placeInHand(int handNumber, int x, int y)
+	public void placeFromHand(int handNumber, int x, int y)
 	{
-		int cardId = hand.get(handNumber);
-		if(place(cardId, x, y))
+		if(hand.size() > 0)
 		{
-			hand.discard(handNumber);
+			int cardId = (int)hand.get(handNumber);
+			if(place(cardId, x, y))
+			{
+				discard(handNumber);
+			}
 		}
 	}
 
 	public boolean place(int cardId, int x, int y)
 	{
 		Card temp = manage.getCard(cardId);
-		cost = temp.getCost();
+		int[] cost = temp.getCost();
 
 		if(canAfford(cost))
 		{
@@ -183,8 +190,20 @@ public class Board
 		}
 	}
 
-	public void getBoardState()
+	public ArrayList[][] getBoardState()
 	{
-		return parts;
+		ArrayList[][] boardState = new ArrayList[5][3];
+		for(int x = 0; x < 5; x++)
+		{
+			for(int y = 0; y < 3; y++)
+			{
+				boardState[x][y] = new ArrayList<Integer>();
+				boardState[x][y].add(parts[x][y].getID());
+				boardState[x][y].add(parts[x][y].getAttack());
+				boardState[x][y].add(parts[x][y].getCountdown());
+				boardState[x][y].add(parts[x][y].getHealth());
+			}
+		}
+		return boardState;
 	}
 }

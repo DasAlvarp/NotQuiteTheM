@@ -10,6 +10,7 @@ abstract public class Card
 	abstract public String getName();
 	abstract public int getMoves();
 	abstract public int Move();
+	abstract public int getID();
 
 	abstract public int getHealth();
 	abstract public int getBaseHealth();

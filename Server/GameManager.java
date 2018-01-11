@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -27,13 +28,57 @@ public class GameManager
 			boards[x] = new Board(justSoldiers);
 		}
 
-		boards[0].placeInHand(0, 1, 1);
+		boards[0].placeFromHand(0, 1, 1);
 		boards[0].sac(0, 2);
 		boards[0].sac(0, 2);
-		boards[0].placeInHand(0, 2, 2);
+		boards[0].placeFromHand(0, 2, 2);
 
 
 		this.players = players;
 		roundNum = 0;
+		sendBoardState(0);
+	}
+
+	public void sendBoardState(int player)
+	{
+		//for now, we're just gonna send the player their own board state. Other ones will come later.
+		ArrayList[][] board = boards[player].getBoardState();
+
+		ArrayList flattenedBoard = new ArrayList<Integer>();
+		
+		//2147483647
+		for(int x = 0; x < 5; x++)
+		{
+			for(int y = 0; y < 3; y++)
+			{
+				//subtracting from max int, so we know it's a coordinate
+				flattenedBoard.add(2147483647 - x);
+				flattenedBoard.add(2147483647 - y);
+				for(int z = 0; z < board[x][y].size(); z++)
+				{
+					flattenedBoard.add(board[x][y].get(z));
+				}
+			}
+		}
+
+		byte[] toSend = new byte[4 * flattenedBoard.size()];
+
+		for(int x = 0; x < flattenedBoard.size(); x++)
+		{
+			BigInteger bigInt = BigInteger.valueOf((int)flattenedBoard.get(x));
+			byte[] thatNumber = bigInt.toByteArray();
+			for(int y = 0; y < 4; y++)
+			{
+				toSend[x * 4 + y] = thatNumber[y]; 
+			}
+		}
+		try
+		{
+			players[player].getOutputStream().write(toSend);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

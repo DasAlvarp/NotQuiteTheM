@@ -23,6 +23,11 @@ public class IceSoldier extends Card
 
 	}
 
+	public int getID()
+	{
+		return 1;
+	}
+
 	public String getName()
 	{
 		return "Ice Soldier";
@@ -109,7 +114,7 @@ public class IceSoldier extends Card
 
 	public int[] getInfo()
 	{
-		return new int[]{getAttack(), getHealth(), getCountdown()}
+		return new int[]{getAttack(), getHealth(), getCountdown()};
 	}
 
 	public int[] getCost()

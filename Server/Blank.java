@@ -11,6 +11,16 @@ public class Blank extends Card
 
 	}
 
+	public int getID()
+	{
+		return 1;
+	}
+
+	public int[] getCost()
+	{
+		return new int[]{0};
+	}
+
 	public String getName()
 	{
 		return "Blank";
@@ -76,6 +86,11 @@ public class Blank extends Card
 	}
 
 	public int[] update()
+	{
+		return new int[]{0};
+	}
+
+	public int[] getInfo()
 	{
 		return new int[]{0};
 	}

@@ -41,8 +41,8 @@ public class ServerManager
 			{
 				e.printStackTrace();
 			}
+			socketNum = getValidSocket(10000);
 		}
-		socketNum = getValidSocket(10000);
 	}
 
 
@@ -56,6 +56,7 @@ public class ServerManager
 				{
 					return x;
 				}
+				
 			}catch(Exception e){
 				return x;
 			}
