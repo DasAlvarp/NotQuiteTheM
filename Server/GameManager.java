@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.*;
+import java.nio.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,9 +52,9 @@ public class GameManager
 		{
 			for(int y = 0; y < 3; y++)
 			{
-				//subtracting from max int, so we know it's a coordinate
-				flattenedBoard.add(2147483647 - x);
-				flattenedBoard.add(2147483647 - y);
+				//negative numbers are coordinates.
+				flattenedBoard.add(-1 - x);
+				flattenedBoard.add(-1 - y);
 				for(int z = 0; z < board[x][y].size(); z++)
 				{
 					flattenedBoard.add(board[x][y].get(z));
@@ -62,16 +63,20 @@ public class GameManager
 		}
 
 		byte[] toSend = new byte[4 * flattenedBoard.size()];
+		for(int x = 0; x < toSend.length; x++)
+		{
+			toSend[x] = (byte)0;
+		}
 
 		for(int x = 0; x < flattenedBoard.size(); x++)
 		{
-			BigInteger bigInt = BigInteger.valueOf((int)flattenedBoard.get(x));
-			byte[] thatNumber = bigInt.toByteArray();
+			byte[] thatNumber = ByteBuffer.allocate(4).putInt((int)flattenedBoard.get(x)).array();
 			for(int y = 0; y < thatNumber.length; y++)
 			{
 				toSend[x * 4 + y] = thatNumber[y]; 
 			}
 		}
+
 		try
 		{
 			players[player].getOutputStream().write(toSend);

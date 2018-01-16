@@ -34,7 +34,6 @@ public class ServerManager
 			try
 			{
 				players[socketNum] = server.accept();
-				players[socketNum].getOutputStream().write("hi\n".getBytes());
 				System.out.println("Connected to player " + socketNum);
 			}
 			catch(Exception e)
@@ -56,7 +55,7 @@ public class ServerManager
 				{
 					return x;
 				}
-				
+
 			}catch(Exception e){
 				return x;
 			}
