@@ -45,18 +45,18 @@ func _process(delta):
 			if(rawNumbers[index] < 0):
 				#negative numbers means we have new xs and ys
 				x = rawNumbers[index] * -1 - 1
-				y = rawNumbers[index + 1] * -1 - 1
+				index += 1
+				y = rawNumbers[index] * -1 - 1
 				print(str(x) + ", " + str(y))
-				index = index + 1
 			else:
 				print(rawNumbers[index])
 				tempBoard[x][y].append(rawNumbers[index])
 				#everything else is added to thte board object
 			index += 1
-		
+			
 		self.board.set_board(tempBoard)
+		update()
 
 
 func _draw():
 	board.draw(get_node("."))
-	
