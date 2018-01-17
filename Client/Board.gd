@@ -27,8 +27,10 @@ func _init():
 			board[x][y] = []
 			board[x][y].append(0)
 
-func set_board(var board):
-	self.board = board
+
+func set_board(var nuBoard):
+	self.board = nuBoard
+
 
 func draw(var node):
 	for x in range(5):
