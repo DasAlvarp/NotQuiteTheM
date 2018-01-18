@@ -13,7 +13,7 @@ public class Blank extends Card
 
 	public int getID()
 	{
-		return 1;
+		return 0;
 	}
 
 	public int[] getCost()

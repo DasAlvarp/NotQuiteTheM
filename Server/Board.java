@@ -3,6 +3,7 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.*;
 
 public class Board
 {
@@ -51,6 +52,8 @@ public class Board
 		idols = new int[5];
 		parts = new Card[5][3];
 
+
+		//initialize the thing
 		for(int x = 0; x < 5; x++)
 		{
 			idols[x] = 10;
@@ -133,7 +136,7 @@ public class Board
 	}
 
 	//play card from hand
-	public void placeFromHand(int handNumber, int x, int y)
+	public boolean placeFromHand(int handNumber, int x, int y)
 	{
 		if(hand.size() > 0)
 		{
@@ -141,10 +144,13 @@ public class Board
 			if(place(cardId, x, y))
 			{
 				discard(handNumber);
+				return true;
 			}
 		}
+		return false;
 	}
 
+	//place card at specific position
 	public boolean place(int cardId, int x, int y)
 	{
 		Card temp = manage.getCard(cardId);
@@ -154,11 +160,16 @@ public class Board
 		{
 			if(canPlace(temp, x, y))
 			{
-				parts[x][y] = temp;
+				parts[x][y] = manage.getCard(cardId);
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public void forcePlace(int cardId, int x, int y)
+	{
+		parts[x][y] = manage.getCard(cardId);
 	}
 
 	public boolean canAfford(int[] price)
@@ -168,14 +179,7 @@ public class Board
 
 	public boolean canPlace(Card card, int x, int y)
 	{
-		if(parts[x][y].getName().equals("Blank"))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return (parts[x][y].getName().equals("Blank"));
 	}
 
 	//end of turn
@@ -190,13 +194,14 @@ public class Board
 		}
 	}
 
-	public ArrayList[][] getBoardState()
+	public List<Integer>[][] getBoardState()
 	{
-		ArrayList[][] boardState = new ArrayList[5][3];
+		List<Integer>[][] boardState = new List[5][3];
 		for(int x = 0; x < 5; x++)
 		{
 			for(int y = 0; y < 3; y++)
 			{
+				System.out.println(x + ", " + y);
 				boardState[x][y] = new ArrayList<Integer>();
 				boardState[x][y].add(parts[x][y].getID());
 				boardState[x][y].add(parts[x][y].getAttack());

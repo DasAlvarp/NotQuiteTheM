@@ -2,9 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.*;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 
 //this assumes everybody's connected. DC's will be dealt with later.
 public class GameManager
@@ -29,11 +27,7 @@ public class GameManager
 			boards[x] = new Board(justSoldiers);
 		}
 
-		boards[0].placeFromHand(0, 1, 1);
-		boards[0].sac(0, 2);
-		boards[0].sac(0, 2);
-		boards[0].placeFromHand(0, 2, 2);
-
+		boards[0].forcePlace(1, 2, 2);
 
 		this.players = players;
 		roundNum = 0;
@@ -43,7 +37,7 @@ public class GameManager
 	public void sendBoardState(int player)
 	{
 		//for now, we're just gonna send the player their own board state. Other ones will come later.
-		ArrayList[][] board = boards[player].getBoardState();
+		List<Integer>[][] board = boards[player].getBoardState();
 
 		ArrayList flattenedBoard = new ArrayList<Integer>();
 		
