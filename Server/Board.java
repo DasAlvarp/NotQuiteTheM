@@ -78,10 +78,11 @@ public class Board
 		}
 
 		//draw cards
-		for(int x = 0; x < 5; x++);
+		for(int x = 0; x < 5; x++)
 		{
 			draw();
 		}
+		System.out.println(hand.size());
 	}
 
 	public int draw()
@@ -155,7 +156,7 @@ public class Board
 	{
 		Card temp = manage.getCard(cardId);
 		int[] cost = temp.getCost();
-
+		getStats();
 		if(canAfford(cost))
 		{
 			if(canPlace(temp, x, y))
@@ -165,6 +166,11 @@ public class Board
 			}
 		}
 		return false;
+	}
+
+	private void getStats()
+	{
+		System.out.println("Stamina: " + curStamina + "\nFire: " + curFire + "\nIce: " + curIce);
 	}
 
 	public void forcePlace(int cardId, int x, int y)
@@ -179,7 +185,7 @@ public class Board
 
 	public boolean canPlace(Card card, int x, int y)
 	{
-		return (parts[x][y].getName().equals("Blank"));
+		return (parts[x][y].getID() == 0);
 	}
 
 	//end of turn

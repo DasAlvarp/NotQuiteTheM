@@ -119,7 +119,7 @@ public class IceSoldier extends Card
 
 	public int[] getCost()
 	{
-		return new int[]{0, 0, 0};
+		return new int[]{2, 0, 2};
 	}
 
 }
