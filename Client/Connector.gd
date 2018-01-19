@@ -5,7 +5,8 @@ extends Node
 # var b = "textvar"
 var host
 var client
-
+var hander = load("res://Hand.gd")
+var hand
 var board
 var otherBoard
 var boarder = load("res://Board.gd")
@@ -18,6 +19,10 @@ func _ready():
 	client.set_big_endian(true)
 	board = boarder.new(true)
 	otherBoard = boarder.new(false)
+	var handCards = [1,1,1,1]
+	
+	
+	hand = hander.new(handCards)
 	set_process(true)
 
 func _process(delta):
@@ -34,6 +39,13 @@ func _process(delta):
 		
 		if(boardState == 1):
 			updateBoards(rawNumbers)
+		elif(boardState == 3):
+			print("hand")
+			updateHand(rawNumbers)
+
+func updateHand(var rawNumbers):
+	hand.set_hand(rawNumbers)
+	update()
 
 
 func updateBoards(var rawNumbers):
@@ -51,7 +63,7 @@ func updateBoards(var rawNumbers):
 	self.board.set_board(byteToBoard(myStuff))
 	self.otherBoard.set_board(byteToBoard(theirStuff))
 	update();
-	
+
 
 func byteToBoard(var rawNumbers):
 	var tempBoard = []
@@ -73,9 +85,7 @@ func byteToBoard(var rawNumbers):
 			x = rawNumbers[index] * -1 - 1
 			index += 1
 			y = rawNumbers[index] * -1 - 1
-			print(str(x) + ", " + str(y))
 		else:
-			print(rawNumbers[index])
 			tempBoard[x][y].append(rawNumbers[index])
 			#everything else is added to thte board object
 		index += 1
@@ -85,3 +95,4 @@ func byteToBoard(var rawNumbers):
 func _draw():
 	board.draw(get_node("."))
 	otherBoard.draw(get_node("."))
+	hand.draw(get_node("."))

@@ -37,6 +37,7 @@ public class GameManager
 		this.players = players;
 		roundNum = 0;
 		sendBoardState(0);
+		sendHand(0);
 	}
 
 	/*
@@ -55,8 +56,42 @@ public class GameManager
 
 	*/
 
+
+	public void sendHand(int player)
+	{
+		sleep();
+		byte[] int1 = ByteBuffer.allocate(4).putInt(3).array();
+		byte[] int2 = ByteBuffer.allocate(4).putInt(1).array();
+		ArrayList<Integer> hand = boards[player].getHand();
+		byte[] toSend = new byte[8 + 4 * hand.size()];
+
+		for(int x = 0; x < 4; x++)
+		{
+			toSend[x] = int1[x];
+			toSend[x + 4] = int2[x];
+		}
+		for(int x = 0; x < hand.size(); x++)
+		{
+			byte[] card = ByteBuffer.allocate(4).putInt((int)hand.get(x)).array();
+			for(int y = 0; y < 4; y++)
+			{
+				toSend[x * 4 + 8 + y] = card[y];
+			}
+		}
+
+		try
+		{
+			players[player].getOutputStream().write(toSend);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public void sendBoardState(int player)
 	{
+		sleep();
 		//for now, we're just gonna send the player their own board state. Other ones will come later.
 		
 		byte[] int1 = ByteBuffer.allocate(4).putInt(1).array();
@@ -66,16 +101,23 @@ public class GameManager
 		byte[] otherGuy = getBoardArray((player + 1)% 2);
 
 		byte[] toSend = new byte[thePlayer.length + otherGuy.length + 12];
+
+		//header parts
 		for(int x = 0; x < 4; x++)
 		{
 			toSend[x] = int1[x];
 			toSend[x + 4] = int2[x];
+			//spacer
 			toSend[x + 8 + thePlayer.length] = spacer[x];
 		}
+
+		//my board
 		for(int x = 0; x < thePlayer.length; x++)
 		{
 			toSend[x + 8] = thePlayer[x];
 		}
+
+		//their board
 		for(int x = 0; x < otherGuy.length; x++)
 		{
 			toSend[x + 12 + thePlayer.length] = otherGuy[x];
@@ -89,6 +131,19 @@ public class GameManager
 		catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	//why does this need a try/catch???
+	private void sleep()
+	{
+		try
+		{
+			Thread.sleep(100);
+		}
+		catch(Exception e)
+		{
+			System.out.println("How did this not sleep?");
 		}
 	}
 

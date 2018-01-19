@@ -4,6 +4,8 @@ var board = []
 var mine
 
 var cardList = []
+var cu = load("res://CardUtiler.gd")
+var CardUtiler
 
 
 #so here's how the board works:
@@ -13,11 +15,9 @@ var cardList = []
 
 func _init(var mine):
 	self.mine = mine
+	CardUtiler = cu.new()
 	#load all card art by id
-	for x in range(2):
-		var image = load(getImagePath(x))
-		image.set_size_override(Vector2(100, 100))
-		cardList.append(image)
+	cardList = CardUtiler.getCardList()
 	
 	board.resize(5)
 	for x in range(5):
@@ -50,12 +50,3 @@ func draw(var node):
 					node.draw_texture_rect(cardList[board[x][y][0]], Rect2(width - y * 100 - 50, x * 75, 100, 100), false)
 				else:
 					node.draw_texture_rect(cardList[board[x][y][0]], Rect2(width - y * 100, x * 75, 100, 100), false)
-
-
-func getImagePath(var id):
-	if(id == 0):
-		return "res://img/Blank.png"
-	elif(id == 1):
-		return "res://img/IceSoldier.png"
-	else:
-		return "err"

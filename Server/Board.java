@@ -217,4 +217,9 @@ public class Board
 		}
 		return boardState;
 	}
+
+	public ArrayList<Integer> getHand()
+	{
+		return hand;
+	}
 }
