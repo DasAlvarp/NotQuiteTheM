@@ -24,6 +24,16 @@ func _ready():
 	
 	hand = hander.new(handCards)
 	set_process(true)
+	set_process_input(true)
+
+
+func _input(ev):
+	var node = get_node(".")
+	var mouse = CircleShape2D.new()
+	mouse.set_radius(1)
+	var mPos = Vector2(ev.x, ev.y)
+	board.onInput(node, mouse, mPos)
+	otherBoard.onInput(node, mouse, mPos)
 
 func _process(delta):
 	if(client.is_connected() && client.get_available_bytes() > 0):
