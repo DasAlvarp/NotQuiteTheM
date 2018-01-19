@@ -7,6 +7,7 @@ var host
 var client
 
 var board
+var otherBoard
 var boarder = load("res://Board.gd")
 
 func _ready():
@@ -15,17 +16,21 @@ func _ready():
 	client = StreamPeerTCP.new()
 	client.connect("localhost", 2003)
 	client.set_big_endian(true)
-	board = boarder.new()
+	board = boarder.new(true)
+	otherBoard = boarder.new(false)
 	set_process(true)
 
 func _process(delta):
 	if(client.is_connected() && client.get_available_bytes() > 0):
 		var length = client.get_available_bytes()
+
+		#fill up the types, differentiate there
 		var rawNumbers = []
-		
-		
-		for characters in range(length / 4):
+		for characters in range(length / 4 - 2):
 			rawNumbers.append(client.get_32())
+
+		if(client.get_32() == 1): #board state case
+			var myTurn = client.get_32()
 		
 		var tempBoard = []
 		tempBoard.resize(5)
@@ -60,3 +65,4 @@ func _process(delta):
 
 func _draw():
 	board.draw(get_node("."))
+	otherBoard.draw(get_node("."))
