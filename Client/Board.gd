@@ -51,6 +51,7 @@ func draw(var node):
 				else:
 					node.draw_texture_rect(cardList[board[x][y][0]], Rect2(width - y * 100, x * 75, 100, 100), false)
 
+
 func getImagePath(var id):
 	if(id == 0):
 		return "res://img/Blank.png"

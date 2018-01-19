@@ -30,6 +30,10 @@ public class GameManager
 		boards[0].sac(0, 2);
 		boards[0].placeFromHand(1, 2, 2);
 
+		boards[1].sac(0, 2);
+		boards[1].sac(0, 2);
+		boards[1].placeFromHand(1, 2, 2);
+
 		this.players = players;
 		roundNum = 0;
 		sendBoardState(0);
@@ -56,7 +60,7 @@ public class GameManager
 		//for now, we're just gonna send the player their own board state. Other ones will come later.
 		
 		byte[] int1 = ByteBuffer.allocate(4).putInt(1).array();
-		byte[] int2 = ByteBuffer.allocate(4).putInt((roundNum + player) % 2 + 1);//player 0 asking, round 0, so it's player 0's turn.
+		byte[] int2 = ByteBuffer.allocate(4).putInt((int)((roundNum + player) % 2 + 1)).array();//player 0 asking, round 0, so it's player 0's turn.
 		byte[] spacer = ByteBuffer.allocate(4).putInt(1000).array();
 		byte[] thePlayer = getBoardArray(player);
 		byte[] otherGuy = getBoardArray((player + 1)% 2);

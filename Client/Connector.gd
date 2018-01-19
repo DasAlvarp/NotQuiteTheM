@@ -24,43 +24,62 @@ func _process(delta):
 	if(client.is_connected() && client.get_available_bytes() > 0):
 		var length = client.get_available_bytes()
 
+		var boardState = client.get_32()
+		var msgState = client.get_32()
+
 		#fill up the types, differentiate there
 		var rawNumbers = []
 		for characters in range(length / 4 - 2):
 			rawNumbers.append(client.get_32())
+		
+		if(boardState == 1):
+			updateBoards(rawNumbers)
 
-		if(client.get_32() == 1): #board state case
-			var myTurn = client.get_32()
-		
-		var tempBoard = []
-		tempBoard.resize(5)
-		for x in range(5):
-			tempBoard[x] = []
-			tempBoard[x].resize(3)
-			for y in range(3):
-				#looks like we're gonna have to load every card in the game first, to save memory. Or at least a decent chunk, so ppl can't chet. Maybe every single one in the used resources? Idk. Maybe just decks are enough.
-				tempBoard[x][y] = []
-		
-		#now we've got all the numbers. Time to do stuff the hard way
-		var x = 0
-		var y = 0
-		
-		var index = 0
-		while index < length / 4:
-			if(rawNumbers[index] < 0):
-				#negative numbers means we have new xs and ys
-				x = rawNumbers[index] * -1 - 1
-				index += 1
-				y = rawNumbers[index] * -1 - 1
-				print(str(x) + ", " + str(y))
-			else:
-				print(rawNumbers[index])
-				tempBoard[x][y].append(rawNumbers[index])
-				#everything else is added to thte board object
+
+func updateBoards(var rawNumbers):
+	var myStuff = []
+	var theirStuff = []
+	var myBoard = true;
+	for number in rawNumbers:
+		if(number == 1000):#next board
+			myBoard = false
+		elif(myBoard):
+			myStuff.append(number)
+		else:
+			theirStuff.append(number)
+
+	self.board.set_board(byteToBoard(myStuff))
+	self.otherBoard.set_board(byteToBoard(theirStuff))
+	update();
+	
+
+func byteToBoard(var rawNumbers):
+	var tempBoard = []
+	tempBoard.resize(5)
+	for x in range(5):
+		tempBoard[x] = []
+		tempBoard[x].resize(3)
+		for y in range(3):
+			tempBoard[x][y] = []
+	
+	#now we've got all the numbers. Time to do stuff the hard way
+	var x = 0
+	var y = 0
+	
+	var index = 0
+	while index < rawNumbers.size():
+		if(rawNumbers[index] < 0):
+			#negative numbers means we have new xs and ys
+			x = rawNumbers[index] * -1 - 1
 			index += 1
-			
-		self.board.set_board(tempBoard)
-		update()
+			y = rawNumbers[index] * -1 - 1
+			print(str(x) + ", " + str(y))
+		else:
+			print(rawNumbers[index])
+			tempBoard[x][y].append(rawNumbers[index])
+			#everything else is added to thte board object
+		index += 1
+	return tempBoard
 
 
 func _draw():
