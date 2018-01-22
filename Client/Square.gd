@@ -4,25 +4,25 @@ var x
 var y
 var hitbox
 
+var pressed = false
+
 var width = 100
 var height = 100
 
-func _input_event(viewport, event, shape_idx):
-	pass
 
-func _ready():
-	set_process(true)
-	set_process_input(true)
-
-
-func _input(ev):
-	#print("oi")
-	pass
+func clear():
+	pressed = false
 	
+
+func getPressed():
+	return pressed
+
+
 func checkStuff(node, mouse, mPos):
-	#print("hi")
+	#responding to clicks
 	if(hitbox.collide(Matrix32(), mouse, Matrix32().translated(mPos))):
-		print("there's a mouse: " + str(x) + "," + str(y))
+		pressed = true
+		#print("there's a mouse: " + str(x) + "," + str(y))
 	
 
 func _init(var olY, var olX):
@@ -42,6 +42,3 @@ func _init(var olY, var olX):
 	var shape = ConvexPolygonShape2D.new()
 	shape.set_points(points)
 	hitbox = shape
-	
-func mouse_enter():
-	print("Moused")

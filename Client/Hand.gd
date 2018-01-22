@@ -10,9 +10,12 @@ func _init(var hand):
 	CardUtiler = cu.new()
 	cardList = CardUtiler.getCardList()
 
+
 func set_hand(var hand):
 	self.hand = hand
 
+
+#draws hand
 func draw(var node):
 	var increment = Globals.get("display/width") / cardList.size()
 	var height = Globals.get("display/height")

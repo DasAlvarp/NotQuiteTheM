@@ -2,12 +2,15 @@ extends Node
 
 var cardList = []
 
+#basically a smart preloading class.
 func _init():
 	for x in range(0, 2):
 		cardList.append(load(getImagePath(x)))
 
+
 func getCardList():
 	return cardList
+
 
 func getImagePath(var id):
 	if(id == 0):

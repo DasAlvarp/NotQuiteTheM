@@ -19,14 +19,14 @@ func _ready():
 	client.set_big_endian(true)
 	board = boarder.new(true)
 	otherBoard = boarder.new(false)
-	var handCards = [1,1,1,1]
-	
+	var handCards = [1,1,1,1] #sample start hand
 	
 	hand = hander.new(handCards)
 	set_process(true)
 	set_process_input(true)
 
 
+#janky click detection, but it seems like the most consistent way
 func _input(ev):
 	var node = get_node(".")
 	var mouse = CircleShape2D.new()
@@ -35,6 +35,8 @@ func _input(ev):
 	board.onInput(node, mouse, mPos)
 	otherBoard.onInput(node, mouse, mPos)
 
+
+#mostly reading data. Some updating
 func _process(delta):
 	if(client.is_connected() && client.get_available_bytes() > 0):
 		var length = client.get_available_bytes()
@@ -53,11 +55,14 @@ func _process(delta):
 			print("hand")
 			updateHand(rawNumbers)
 
+
+#sets cards in hand to what you're given
 func updateHand(var rawNumbers):
 	hand.set_hand(rawNumbers)
 	update()
 
 
+#updates boards to sent board states.
 func updateBoards(var rawNumbers):
 	var myStuff = []
 	var theirStuff = []
@@ -75,6 +80,7 @@ func updateBoards(var rawNumbers):
 	update();
 
 
+#converts the byte list to a board state.
 func byteToBoard(var rawNumbers):
 	var tempBoard = []
 	tempBoard.resize(5)
@@ -102,6 +108,7 @@ func byteToBoard(var rawNumbers):
 	return tempBoard
 
 
+#very simple draw function
 func _draw():
 	board.draw(get_node("."))
 	otherBoard.draw(get_node("."))
