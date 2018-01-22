@@ -22,12 +22,12 @@ func _input(ev):
 func checkStuff(node, mouse, mPos):
 	#print("hi")
 	if(hitbox.collide(Matrix32(), mouse, Matrix32().translated(mPos))):
-		print("there's a mouse: " + str(mPos))
+		print("there's a mouse: " + str(x) + "," + str(y))
 	
 
-func _init(var x, var y):
-	self.x = x
-	self.y = y
+func _init(var olY, var olX):
+	self.x = olX
+	self.y = olY
 	
 	#points in the hexagon
 	var points = []
