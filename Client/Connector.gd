@@ -3,6 +3,8 @@ extends Node
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
+var node 
+
 var host
 var client
 var hander = load("res://Hand.gd")
@@ -12,8 +14,7 @@ var otherBoard
 var boarder = load("res://Board.gd")
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
+	node = get_node(".")
 	client = StreamPeerTCP.new()
 	client.connect("localhost", 2003)
 	client.set_big_endian(true)
@@ -28,13 +29,20 @@ func _ready():
 
 #janky click detection, but it seems like the most consistent way
 func _input(ev):
-	var node = get_node(".")
 	var mouse = CircleShape2D.new()
 	mouse.set_radius(1)
 	var mPos = Vector2(ev.x, ev.y)
-	board.onInput(node, mouse, mPos)
+	var selSquares = board.onInput(node, mouse, mPos)
 	otherBoard.onInput(node, mouse, mPos)
-
+	if(selSquares != null):
+		print("sent")
+		
+		client.put_32(selSquares[0])
+		for x in range(1, selSquares.size()):
+			client.put_32(selSquares[x].x)
+			client.put_32(selSquares[x].y)
+	else:
+		print("not sent")
 
 #mostly reading data. Some updating
 func _process(delta):
@@ -52,7 +60,6 @@ func _process(delta):
 		if(boardState == 1):
 			updateBoards(rawNumbers)
 		elif(boardState == 3):
-			print("hand")
 			updateHand(rawNumbers)
 
 
@@ -110,6 +117,6 @@ func byteToBoard(var rawNumbers):
 
 #very simple draw function
 func _draw():
-	board.draw(get_node("."))
-	otherBoard.draw(get_node("."))
-	hand.draw(get_node("."))
+	board.draw(node)
+	otherBoard.draw(node)
+	hand.draw(node)

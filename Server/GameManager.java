@@ -132,7 +132,38 @@ public class GameManager
 		{
 			e.printStackTrace();
 		}
+
+		runGame();
 	}
+
+
+	public int runGame()
+	{
+		boolean running = true;
+		while(running)
+		{
+			try
+			{
+				InputStreamReader isr = new InputStreamReader(players[roundNum % 2].getInputStream());
+	            System.out.println(isr.getEncoding());
+	            BufferedReader in = new BufferedReader(isr);
+				System.out.println(in.readLine());
+				running = false;
+
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+
+			if(roundNum == 10)
+			{
+				running = false;
+			}
+		}
+		return 3;
+	}
+
 
 	//why does this need a try/catch???
 	private void sleep()

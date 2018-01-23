@@ -8,7 +8,7 @@ var cu = load("res://CardUtiler.gd")
 var CardUtiler
 var sq = load("res://Square.gd")
 var square = []
-
+var command = null
 
 #so here's how the board works:
 #every position has an arrayList or w/e.
@@ -55,7 +55,7 @@ func onInput(node, mouse, mPos):
 	for x in range(5):
 		for y in range(3):
 			square[x][y].checkStuff(node, mouse, mPos)
-	maxSel()
+	var command = maxSel(1)
 
 
 #draw board. Includes cases for my board and theirs
@@ -89,11 +89,23 @@ func numSel():
 
 #clears board of selections
 func wipeSel():
+	var stuff = []
 	for x in range(5):
 		for y in range(3):
+			if(square[x][y].getPressed()):
+				stuff.append(Vector2(x, y))
 			square[x][y].clear()
+	return stuff
+
 
 #clears board if the number of selections breaks a number. Default 2
-func maxSel(var top = 2):
-	if(numSel() > top):
-		wipeSel()
+func maxSel(var type, var top = 2):
+	if(numSel() >= top):
+		var selected = wipeSel()
+		if(type == 1):
+			if(#board[selected[0].x][selected[0].y][0] !=  board[selected[1].x][selected[1].y][0] &&
+				(board[selected[0].x][selected[0].y][0] == 0 || board[selected[1].x][selected[1].y][0] == 0)):
+				print("oi")
+				return [1, selected[0], selected[1]]
+	print("null")
+	return null

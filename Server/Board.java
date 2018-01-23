@@ -37,6 +37,8 @@ public class Board
 	{
 		//exists so a specific thing works
 	}
+
+	
 	public Board(int[] cards)
 	{
 		maxStamina = 0;
