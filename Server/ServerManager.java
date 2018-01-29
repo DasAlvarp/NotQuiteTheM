@@ -12,9 +12,12 @@ public class ServerManager
 	public ServerManager(int port)
 	{
 		players = new Socket[2];
-		try{
+		try
+		{
 			server = new ServerSocket(port);
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 		}
 		//first, we connect the players
@@ -34,6 +37,7 @@ public class ServerManager
 			try
 			{
 				players[socketNum] = server.accept();
+				players[socketNum].setTcpNoDelay(true);
 				System.out.println("Connected to player " + socketNum);
 			}
 			catch(Exception e)
@@ -48,15 +52,18 @@ public class ServerManager
 	//makes sure the players are all good.
 	private int getValidSocket(int timeout)
 	{
-		for(int x = 0; x < 2; x++){
+		for(int x = 0; x < 2; x++)
+		{
 			//if there's any kind of issue connecting, then it's not set up, so need to set that socket up.
-			try{
+			try
+			{
 				if(!players[x].getInetAddress().isReachable(timeout))
 				{
 					return x;
 				}
-
-			}catch(Exception e){
+			}
+			catch(Exception e)
+			{
 				return x;
 			}
 		}

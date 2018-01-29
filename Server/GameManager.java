@@ -142,12 +142,16 @@ public class GameManager
 		boolean running = true;
 		while(running)
 		{
+
 			try
 			{
-				InputStreamReader isr = new InputStreamReader(players[roundNum % 2].getInputStream());
-	            System.out.println(isr.getEncoding());
-	            BufferedReader in = new BufferedReader(isr);
-				System.out.println(in.readLine());
+				BufferedReader in = new BufferedReader(new InputStreamReader(players[roundNum % 2].getInputStream()));
+				Scanner scanMan = new Scanner(in);
+				do
+				{
+					System.out.println("Hey, I'm trying to read here!");
+					System.out.println(scanMan.nextInt());
+				}while(scanMan.hasNextInt());
 				running = false;
 
 			}

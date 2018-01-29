@@ -55,7 +55,7 @@ func onInput(node, mouse, mPos):
 	for x in range(5):
 		for y in range(3):
 			square[x][y].checkStuff(node, mouse, mPos)
-	var command = maxSel(1)
+	return maxSel(1)
 
 
 #draw board. Includes cases for my board and theirs

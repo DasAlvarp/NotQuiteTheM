@@ -34,6 +34,7 @@ func _input(ev):
 	var mPos = Vector2(ev.x, ev.y)
 	var selSquares = board.onInput(node, mouse, mPos)
 	otherBoard.onInput(node, mouse, mPos)
+	#client.put_utf8_string("Words plase work\n")
 	if(selSquares != null):
 		print("sent")
 		
@@ -41,8 +42,7 @@ func _input(ev):
 		for x in range(1, selSquares.size()):
 			client.put_32(selSquares[x].x)
 			client.put_32(selSquares[x].y)
-	else:
-		print("not sent")
+
 
 #mostly reading data. Some updating
 func _process(delta):
