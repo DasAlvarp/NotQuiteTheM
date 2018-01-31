@@ -87,6 +87,7 @@ public class Board
 		System.out.println(hand.size());
 	}
 
+	//draw a card
 	public int draw()
 	{
 		int card = (int)library.remove(0);//returns what was popped
@@ -175,6 +176,8 @@ public class Board
 		System.out.println("Stamina: " + curStamina + "\nFire: " + curFire + "\nIce: " + curIce);
 	}
 
+
+	//slam that bad boy down.
 	public void forcePlace(int cardId, int x, int y)
 	{
 		parts[x][y] = manage.getCard(cardId);
@@ -223,5 +226,111 @@ public class Board
 	public ArrayList<Integer> getHand()
 	{
 		return hand;
+	}
+
+	//reads inputs from player and parses it accordingly. Basically a big ass switch statement.
+	public List<Integer> readInputs(ArrayList<Integer> inputs)
+	{
+		switch(inputs.get(0))
+		{
+			case 1:
+				return readMove(inputs);
+			default:
+				return new ArrayList<Integer>(0);//0 = invalid. Negative numbers mean failed attempt at command.
+		}
+	}
+
+	public List<Integer> readMove(ArrayList<Integer> inputs)
+	{
+		if(canMove(inputs.get(1), inputs.get(2), inputs.get(3), inputs.get(4)))
+		{
+			Card temp = parts[inputs.get(1)][inputs.get(2)];
+			parts[inputs.get(1)][inputs.get(2)] = parts[inputs.get(3)][inputs.get(4)];
+			parts[inputs.get(3)][inputs.get(4)] = temp;
+			return new ArrayList<Integer>(1);
+		}
+		else
+		{
+			return new ArrayList<Integer>(-1);
+		}
+	}
+
+
+	public boolean canMove(int x1, int y1, int x2, int y2)
+	{
+		//if it's adjacent and one of them isn't blank and the other is, then you can move.
+		if(isAdjacent(x1, y1, x2, y2))
+		{
+			if(parts[x1][y1].getID() != parts[x2][y2].getID()) 
+			{
+				if(parts[x1][y1].getID() == 0)
+				{
+					if(parts[x2][y2].getMoves() > 0)
+					{
+						return true;
+					}
+				}
+				else if(parts[x2][y2].getID() == 0)
+				{
+					if(parts[x1][y1].getMoves() > 0)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return true;//true for pure thing goes from pt a to pt b to work
+	}
+
+	public boolean isAdjacent(int x1, int y1, int x2, int y2)
+	{
+		return true;
+		//stub  for now.
+		/*
+		if(x1 == x2)
+		{
+			if(y1 == y2 + 1)
+			{
+				return true;
+			}
+			else if(y1 == y2 -1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if(y1 == y2)
+		{
+			if(x1 == x2 + 1)
+			{
+				return true;
+			}
+			else if(x1 == x2 - 1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if(x1 % 2 == 1)
+		{
+			if(y1 == y2 -1)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if()
+		}*/
 	}
 }

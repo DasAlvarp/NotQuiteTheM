@@ -29,22 +29,23 @@ func _ready():
 
 #janky click detection, but it seems like the most consistent way
 func _input(ev):
-	var mouse = CircleShape2D.new()
-	mouse.set_radius(1)
-	var mouse_pos = get_global_mouse_pos()
-	var mPos = Vector2(mouse_pos.x, mouse_pos.y)
-	var selSquares = board.onInput(node, mouse, mPos)
-	otherBoard.onInput(node, mouse, mPos)
-	#client.put_utf8_string("Words plase work\n")
-	
-	if(selSquares != null):
-		print("sent")
+	if(ev.type == InputEvent.MOUSE_BUTTON):
+		var mouse = CircleShape2D.new()
+		mouse.set_radius(1)
+		var mouse_pos = get_global_mouse_pos()
+		var mPos = Vector2(mouse_pos.x, mouse_pos.y)
+		var selSquares = board.onInput(node, mouse, mPos)
+		otherBoard.onInput(node, mouse, mPos)
+		#client.put_utf8_string("Words plase work\n")
 		
-		client.put_32(selSquares[0])
-		for x in range(1, selSquares.size()):
-			client.put_32(int(selSquares[x].x))
-			client.put_32(int(selSquares[x].y))
-		client.put_32(-1)#over command
+		if(selSquares != null):
+			print("sent")
+		
+			client.put_32(selSquares[0])
+			for x in range(1, selSquares.size()):
+				client.put_32(int(selSquares[x].x))
+				client.put_32(int(selSquares[x].y))
+			client.put_32(-1)#over command
 
 
 #mostly reading data. Some updating

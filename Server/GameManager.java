@@ -156,10 +156,14 @@ public class GameManager
 						in.read(value, 0, 4);
 						ByteBuffer wrapped = ByteBuffer.wrap(value);
 						int integerVal = wrapped.getInt();
-						inputs.add(integerVal);
 						if(integerVal == -1)
 						{
-							running = false;
+							boards[roundNum % 2].readInputs(inputs);
+							sendBoardState(roundNum % 2);
+						}
+						else
+						{
+							inputs.add(integerVal);
 						}
 					}
 				}
