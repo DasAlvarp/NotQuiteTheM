@@ -31,7 +31,8 @@ func _ready():
 func _input(ev):
 	var mouse = CircleShape2D.new()
 	mouse.set_radius(1)
-	var mPos = Vector2(ev.x, ev.y)
+	var mouse_pos = get_global_mouse_pos()
+	var mPos = Vector2(mouse_pos.x, mouse_pos.y)
 	var selSquares = board.onInput(node, mouse, mPos)
 	otherBoard.onInput(node, mouse, mPos)
 	#client.put_utf8_string("Words plase work\n")
@@ -41,8 +42,9 @@ func _input(ev):
 		
 		client.put_32(selSquares[0])
 		for x in range(1, selSquares.size()):
-			client.put_32(selSquares[x].x)
-			client.put_32(selSquares[x].y)
+			client.put_32(int(selSquares[x].x))
+			client.put_32(int(selSquares[x].y))
+		client.put_32(-1)#over command
 
 
 #mostly reading data. Some updating

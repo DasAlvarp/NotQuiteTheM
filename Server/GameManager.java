@@ -142,18 +142,32 @@ public class GameManager
 		boolean running = true;
 		while(running)
 		{
-
 			try
 			{
-				int val = 5;
 				InputStream in = players[roundNum % 2].getInputStream();
-				do
+				int size = in.available();
+				ArrayList<Integer> inputs = new ArrayList<Integer>();
+				if(size > 0)
 				{
-					val = in.read();
-					System.out.println("Hey, I'm trying to read here!");
-					System.out.println(val);
-				}while(val != 32);
-				running = false;
+					byte[] value = new byte[4];
+					System.out.println("Size: " + size);
+					for(int x = 0; x < size / 4; x++)
+					{
+						in.read(value, 0, 4);
+						ByteBuffer wrapped = ByteBuffer.wrap(value);
+						int integerVal = wrapped.getInt();
+						inputs.add(integerVal);
+						if(integerVal == -1)
+						{
+							running = false;
+						}
+					}
+				}
+
+				for(int input : inputs)
+				{
+					System.out.println(input);
+				}
 
 			}
 			catch(Exception e)
