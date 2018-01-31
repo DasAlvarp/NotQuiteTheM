@@ -35,6 +35,7 @@ func _input(ev):
 	var selSquares = board.onInput(node, mouse, mPos)
 	otherBoard.onInput(node, mouse, mPos)
 	#client.put_utf8_string("Words plase work\n")
+	
 	if(selSquares != null):
 		print("sent")
 		

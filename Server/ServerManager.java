@@ -37,7 +37,6 @@ public class ServerManager
 			try
 			{
 				players[socketNum] = server.accept();
-				players[socketNum].setTcpNoDelay(true);
 				System.out.println("Connected to player " + socketNum);
 			}
 			catch(Exception e)

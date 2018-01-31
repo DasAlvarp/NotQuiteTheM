@@ -145,13 +145,14 @@ public class GameManager
 
 			try
 			{
-				BufferedReader in = new BufferedReader(new InputStreamReader(players[roundNum % 2].getInputStream()));
-				Scanner scanMan = new Scanner(in);
+				int val = 5;
+				InputStream in = players[roundNum % 2].getInputStream();
 				do
 				{
+					val = in.read();
 					System.out.println("Hey, I'm trying to read here!");
-					System.out.println(scanMan.nextInt());
-				}while(scanMan.hasNextInt());
+					System.out.println(val);
+				}while(val != 32);
 				running = false;
 
 			}

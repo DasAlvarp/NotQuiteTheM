@@ -105,7 +105,5 @@ func maxSel(var type, var top = 2):
 		if(type == 1):
 			if(#board[selected[0].x][selected[0].y][0] !=  board[selected[1].x][selected[1].y][0] &&
 				(board[selected[0].x][selected[0].y][0] == 0 || board[selected[1].x][selected[1].y][0] == 0)):
-				print("oi")
 				return [1, selected[0], selected[1]]
-	print("null")
 	return null
